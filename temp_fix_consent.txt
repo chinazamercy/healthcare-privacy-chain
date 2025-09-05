@@ -1,0 +1,11 @@
+(define-private (consent-is-valid (patient-id principal) (provider-id principal) (consent-id uint))
+  (let ((consent (map-get? consents { patient-id: patient-id, provider-id: provider-id, consent-id: consent-id })))
+    (if (is-some consent)
+        (and 
+          (get is-active (unwrap-panic consent))
+          (< u1 (get expires-at (unwrap-panic consent)))
+        )
+        false
+    )
+  )
+)
